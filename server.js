@@ -423,10 +423,10 @@ io.on("connection", (socket) => {
                 console.log(`running on :${player1} ${player2}`);
                 let roomid = short.generate();
                 const usersProfile1 = await UserProfile.findOne({
-                    uid: player2,
+                    uid: player1,
                 });
                 const usersProfile2 = await UserProfile.findOne({
-                    uid: player1,
+                    uid: player2,
                 });
                 io.emit(`Room${player1}`, { proflie: usersProfile2, roomId: roomid });
                 io.emit(`Room${player2}`, { proflie: usersProfile1, roomId: roomid });
