@@ -1,0 +1,12 @@
+const express = require("express");
+const router = express.Router();
+const { create, createmutiple, getall, getquestiontopic, deleteQuestion, update } = require("../controllers/questionController");
+const validateToken = require("../middleware/validateTokenHandler");
+const validateTokenAdmin = require("../middleware/validateTokenAdminHandler");
+router.post("/create", validateTokenAdmin, create);
+router.post("/createmutiple", validateTokenAdmin, createmutiple);
+router.post("/getquestiontopic", validateToken, getquestiontopic);
+router.get("/getall", getall);
+router.delete("/delete/:id", validateTokenAdmin, deleteQuestion);
+router.put('/update/:id', validateTokenAdmin, update);
+module.exports = router;
