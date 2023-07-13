@@ -187,7 +187,7 @@
                         }, 3000);
                     },
                     error: function(xhr, status, error) {
-
+                      $(".lds-ring").css("display", "none");
                         var statusCode = xhr.status;
                         if (statusCode == 400) {
                             $(".validate-oldPassword").text("Mật khẩu hiện tại không chính xác.");
