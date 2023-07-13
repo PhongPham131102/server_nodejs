@@ -416,7 +416,7 @@ io.on("connection", (socket) => {
                     break;
                 }
             }
-            if (player1) {
+            if (player1 && player1.uid != player2.uid) {
                 roomCplusplus = roomCplusplus.filter(
                     (uid) => uid !== player2 && uid !== player1
                 );
@@ -469,7 +469,7 @@ io.on("connection", (socket) => {
                     break;
                 }
             }
-            if (player1) {
+            if (player1 && player1.uid != player2.uid) {
                 roomCss = roomCss.filter((uid) => uid !== player2 && uid !== player1);
                 console.log(`roomCss running on :${player1} ${player2}`);
                 let roomid = short.generate();
@@ -519,7 +519,7 @@ io.on("connection", (socket) => {
                     break;
                 }
             }
-            if (player1) {
+            if (player1 && player1.uid != player2.uid) {
                 roomHtml = roomHtml.filter((uid) => uid !== player2 && uid !== player1);
                 console.log(`roomHtml running on :${player1} ${player2}`);
                 let roomid = short.generate();
@@ -569,7 +569,7 @@ io.on("connection", (socket) => {
                     break;
                 }
             }
-            if (player1) {
+            if (player1 && player1.uid != player2.uid) {
                 roomSql = roomSql.filter((uid) => uid !== player2 && uid !== player1);
                 console.log(`roomSql running on :${player1} ${player2}`);
                 let roomid = short.generate();
