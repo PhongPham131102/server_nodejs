@@ -40,6 +40,7 @@ async function createMutilQuestion(questionthemes, uid, theme) {
             theme: theme,
         });
         if (image != "") {
+            ///
             let base64Data = image.replace(/^data:image\/\w+;base64,/, "");
             const buffer = Buffer.from(base64Data, "base64");
             let address = `public/images/${uid}/${theme}${question._id.toString()}.png`;
@@ -72,6 +73,7 @@ const edit = asyncHandler(async(req, res) => {
 
     // Cập nhật danh sách câu hỏi
     const questionThemes = req.body.questionThemes;
+    console.log(questionThemes);
     //console.log(updatedTest.listQuestions);
     const updatedQuestions = await updateMultipleQuestions(
         questionThemes,
@@ -101,9 +103,14 @@ async function updateMultipleQuestions(
     const updatedQuestions = [];
     var listQuestionsUpdate = [];
     for (let i = 0; i < questionthemes.length; i++) {
-        const { _id, title, answers, score, image, time } = questionthemes[i];
+        const _id = questionthemes[i]._id ? questionthemes[i]._id : "";
+        const title = questionthemes[i].title ? questionthemes[i].title : "";
+        const answers = questionthemes[i].answers ? questionthemes[i].answers : "";
+        const score = questionthemes[i].score ? questionthemes[i].score : "";
+        const image = questionthemes[i].image ? questionthemes[i].image : "";
+        const time = questionthemes[i].time ? questionthemes[i].time : "";
+        console.log(_id + " " + image);
         if (_id) {
-
             listQuestionsUpdate.push(_id);
             const updatedQuestion = await QuestionTheme.findByIdAndUpdate(
                 _id, {
@@ -128,11 +135,6 @@ async function updateMultipleQuestions(
                 }
             } else {
                 const question = await QuestionTheme.findById(_id);
-                if (question.image) {
-                    // Xóa hình ảnh liên quan nếu có
-                    const imagePath = `public${question.image}`;
-                    fs.unlinkSync(imagePath);
-                }
                 updatedQuestion.image = ``;
                 await updatedQuestion.save();
             }
@@ -168,20 +170,20 @@ async function updateMultipleQuestions(
             }
         }
     }
-    const missingQuestions = listQuestionsIdOld.filter(
-        (questionId) => !listQuestionsUpdate.includes(questionId)
-    );
-    for (const questionId of missingQuestions) {
-        const question = await QuestionTheme.findById(questionId);
-        if (question.image) {
-            // Xóa hình ảnh liên quan nếu có
-            const imagePath = `public${question.image}`;
-            fs.unlinkSync(imagePath);
-        }
+    // const missingQuestions = listQuestionsIdOld.filter(
+    //     (questionId) => !listQuestionsUpdate.includes(questionId)
+    // );
+    // for (const questionId of missingQuestions) {
+    //     const question = await QuestionTheme.findById(questionId);
+    //     if (question.image) {
+    //         // Xóa hình ảnh liên quan nếu có
+    //         const imagePath = `public${question.image}`;
+    //         fs.unlinkSync(imagePath);
+    //     }
 
-        // Xóa câu hỏi từ cơ sở dữ liệu
-        await QuestionTheme.findByIdAndRemove(questionId);
-    }
+    //     // Xóa câu hỏi từ cơ sở dữ liệu
+    //     await QuestionTheme.findByIdAndRemove(questionId);
+    // }
     return updatedQuestions;
 }
 
