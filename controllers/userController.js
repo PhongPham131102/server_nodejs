@@ -110,11 +110,12 @@ const getuser = asyncHandler(async(req, res) => {
 
 const update = asyncHandler(async(req, res) => {
     const { fullName, email, isAdmin, isTeacher } = req.body;
-    const checkUserMail = await User.findOne({ email: email });
+    const user = await User.findOne({ _id: req.body.id });
+    const checkUserMail = await User.findOne({ email: email, _id: { $ne: user._id } });
     if (checkUserMail) {
         res.status(403).send();
     } else {
-        const user = await User.findOne({ _id: req.body.id });
+        
 
         user.fullName = fullName;
         user.email = email;
