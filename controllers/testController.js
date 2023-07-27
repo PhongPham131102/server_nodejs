@@ -10,11 +10,11 @@ const get = asyncHandler(async(req, res) => {
     });
 });
 const create = asyncHandler(async(req, res) => {
-    idTheme = req.body.idTheme;
-    uid = req.user.id;
-    questionThemes = req.body.questionThemes;
-    questions = await createMutilQuestion(questionThemes, uid, idTheme);
-    test = await Test.create({
+    var idTheme = req.body.idTheme;
+    var uid = req.user.id;
+    var questionThemes = req.body.questionThemes;
+    var questions = await createMutilQuestion(questionThemes, uid, idTheme);
+    var test = await Test.create({
         uid: uid,
         heading: req.body.heading,
         testTheme: req.body.idTheme,
@@ -40,14 +40,21 @@ async function createMutilQuestion(questionthemes, uid, theme) {
             theme: theme,
         });
         if (image != "") {
-            ///
-            let base64Data = image.replace(/^data:image\/\w+;base64,/, "");
-            const buffer = Buffer.from(base64Data, "base64");
-            let address = `public/images/${uid}/${theme}${question._id.toString()}.png`;
-            await fs.ensureDir(path.dirname(address));
-            fs.writeFileSync(address, buffer);
-            question.image = `/images/${uid}/${theme}${question._id.toString()}.png`;
-            question.save();
+            if (/^data:image\/\w+;base64,/.test(image)) {
+                let base64Data = image.replace(/^data:image\/\w+;base64,/, "");
+                const buffer = Buffer.from(base64Data, "base64");
+                let address = `public/images/${uid}/${theme}${question._id.toString()}.png`;
+                await fs.ensureDir(path.dirname(address));
+                fs.writeFileSync(address, buffer);
+                question.image = `/images/${uid}/${theme}${question._id.toString()}.png`;
+                await question.save();
+            } else {
+                const sourceImagePath = "public" + image;
+                let destinationImagePath = `public/images/${uid}/${theme}${question._id.toString()}.png`;
+                fs.copyFileSync(sourceImagePath, destinationImagePath);
+                question.image = `/images/${uid}/${theme}${question._id.toString()}.png`;
+                await question.save();
+            }
         }
 
         if (question) {
@@ -73,7 +80,6 @@ const edit = asyncHandler(async(req, res) => {
 
     // Cập nhật danh sách câu hỏi
     const questionThemes = req.body.questionThemes;
-    console.log(questionThemes);
     //console.log(updatedTest.listQuestions);
     const updatedQuestions = await updateMultipleQuestions(
         questionThemes,

@@ -47,9 +47,9 @@ app.use("/email", require("./routers/emailRouter"));
 app.use("/", require("./routers/index"));
 app.use("/admin", require("./routers/adminRouter"));
 app.use(errorHandler);
-// app.use(function(req, res, next) {
-//     res.render("error");
-// });
+app.use(function(req, res, next) {
+    res.render("error");
+});
 const { Server } = require("socket.io");
 let io = new Server(server);
 
@@ -276,7 +276,7 @@ io.on("connection", (socket) => {
                             io.emit(`DetroyChip${data.roomid}`, data);
                         }
                     } else {
-                        matchs[data.roomid].score2 += data.score;
+                        matchs[data.roomid].score2 += data.scoreIfCorrect;
                         matchs[data.roomid].answer1.push({
                             index: data.index,
                             selectedIndex: data.selectedIndex,
@@ -285,6 +285,7 @@ io.on("connection", (socket) => {
                         var subtracScore = matchs[data.roomid].score1 - data.scoreIfCorrect;
                         if (subtracScore < 0) {
                             matchs[data.roomid].score1 = 0;
+
                             io.emit(`DetroyChip${data.roomid}`, data);
                         } else {
                             matchs[data.roomid].score1 = subtracScore;
@@ -319,7 +320,7 @@ io.on("connection", (socket) => {
                             io.emit(`DetroyChip${data.roomid}`, data);
                         }
                     } else {
-                        matchs[data.roomid].score1 += data.score;
+                        matchs[data.roomid].score1 += data.scoreIfCorrect;
                         matchs[data.roomid].answer2.push({
                             index: data.index,
                             selectedIndex: data.selectedIndex,

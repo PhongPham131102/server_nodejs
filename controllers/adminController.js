@@ -12,6 +12,7 @@ const login = async(req, res) => {
     } else {
         res.render("admin/login");
     }
+    res.end();
 };
 const manageraccount = async(req, res) => {
     if (res.auth) {
@@ -23,7 +24,7 @@ const manageraccount = async(req, res) => {
     } else {
         res.render("admin/login");
     }
-
+    res.end();
 }
 const managerquestions = async(req, res) => {
     if (res.auth) {
@@ -61,6 +62,6 @@ const managerquestions = async(req, res) => {
     } else {
         res.render("admin/login");
     }
-
+    res.end();
 }
 module.exports = { login, manageraccount, managerquestions };
