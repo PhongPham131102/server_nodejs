@@ -43,7 +43,6 @@ const managerquestions = async (req, res) => {
 
             if (existingTypeLanguage) {
                 if (!existingTypeLanguage.levels.includes(level)) {
-                    // Nếu level chưa tồn tại, thêm nó vào mảng levels
                     existingTypeLanguage.levels.push(level);
                 }
             } else {
