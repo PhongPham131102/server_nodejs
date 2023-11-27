@@ -31,7 +31,6 @@ const managerquestions = async (req, res) => {
         const user = await User.findOne({ _id: req.user.id });
         const questions = await Question.find();
 
-        // Tạo một mảng để lưu trữ thông tin typeLanguage và level
         const typeLanguageLevels = [];
 
         // Duyệt qua từng câu hỏi và thu thập thông tin typeLanguage và level
