@@ -2,7 +2,7 @@ const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const UserTemporary = require("../models/userTemporaryModel");
 const Question = require("../models/questionModel");
-const login = async(req, res) => {
+const login = async (req, res) => {
     if (res.auth) {
         const users = await User.find();
         const user = await User.findOne({ _id: req.user.id });
@@ -14,7 +14,7 @@ const login = async(req, res) => {
     }
     res.end();
 };
-const manageraccount = async(req, res) => {
+const manageraccount = async (req, res) => {
     if (res.auth) {
         const users = await User.find();
         const user = await User.findOne({ _id: req.user.id });
@@ -26,7 +26,7 @@ const manageraccount = async(req, res) => {
     }
     res.end();
 }
-const managerquestions = async(req, res) => {
+const managerquestions = async (req, res) => {
     if (res.auth) {
         const user = await User.findOne({ _id: req.user.id });
         const questions = await Question.find();
@@ -48,7 +48,6 @@ const managerquestions = async(req, res) => {
                     existingTypeLanguage.levels.push(level);
                 }
             } else {
-                // Nếu typeLanguage chưa tồn tại, tạo một đối tượng mới chứa thông tin typeLanguage và mảng levels
                 typeLanguageLevels.push({
                     typeLanguage,
                     levels: [level],
