@@ -42,7 +42,6 @@ const managerquestions = async (req, res) => {
             const existingTypeLanguage = typeLanguageLevels.find((item) => item.typeLanguage === typeLanguage);
 
             if (existingTypeLanguage) {
-                // Nếu typeLanguage đã tồn tại, kiểm tra xem level đã được thêm vào mảng level chưa
                 if (!existingTypeLanguage.levels.includes(level)) {
                     // Nếu level chưa tồn tại, thêm nó vào mảng levels
                     existingTypeLanguage.levels.push(level);
