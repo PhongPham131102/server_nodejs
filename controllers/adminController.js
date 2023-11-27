@@ -30,10 +30,7 @@ const managerquestions = async (req, res) => {
     if (res.auth) {
         const user = await User.findOne({ _id: req.user.id });
         const questions = await Question.find();
-
         const typeLanguageLevels = [];
-
-        // Duyệt qua từng câu hỏi và thu thập thông tin typeLanguage và level
         questions.forEach((question) => {
             const { typeLanguage, level } = question;
 
